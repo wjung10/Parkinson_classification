@@ -1,4 +1,5 @@
 import os
+import sys
 from threading import Thread
 import einops
 import torch.nn.functional as F
@@ -10,8 +11,6 @@ from numpy.linalg import inv
 from scipy.ndimage import affine_transform
 import time
 import copy
-import pandas as pd
-from tqdm import tqdm 
 
 list_dir_model = [
     './models/axial.pt',
@@ -107,5 +106,11 @@ def run_brainstem_seg(t1_path, seg_path, save_path):
     indices, counts = np.unique(pred, return_counts=True)
     
     nib.save(nib.Nifti1Image(pred.astype(np.uint8), db_output.affine), save_path)
+
+if __name__ == '__main__':
+    t1_path = sys.argv[1]
+    seg_path = sys.argv[2]
+    save_path = sys.argv[3]
+    run_brainstem_seg(t1_path, seg_path, save_path)
 
 
